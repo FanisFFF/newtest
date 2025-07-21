@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch,} from 'vue'
+import { ref, watch, } from 'vue'
 import { parseLabels } from '../utils/labelParser'
 import type { Account } from '../store/store'
 import { useAccountsStore } from '../store/store'
@@ -41,31 +41,16 @@ watch([labelsInput, login, password, type], validateAndSave, { deep: true })
 
 <template>
   <div class="flex items-center p-2 gap-2">
-    <input
-      v-model="labelsInput"
-      placeholder="Метки (через ;)"
-      class="w-full p-2 border rounded"
-    />
+    <input v-model="labelsInput" placeholder="Метки (через ;)" class="w-full p-2 border rounded" />
     <select v-model="type" class="w-full p-2 border rounded">
       <option value="LDAP">LDAP</option>
       <option value="Локальная">Локальная</option>
     </select>
-    <input
-      v-model="login"
-      placeholder="Логин"
-      :class="['w-full p-2 border rounded', { 'border-red-500': errors.login }]"
-    />
-    <input
-      v-if="type === 'Локальная'"
-      v-model="password"
-      placeholder="Пароль"
-      type="password"
-      :class="['w-full p-2 border rounded', { 'border-red-500': errors.password }]"
-    />
-    <button
-      class="text-red-600 hover:underline"
-      @click="store.deleteAccount(account.id)"
-    >
+    <input v-model="login" placeholder="Логин"
+      :class="['w-full p-2 border rounded', { 'border-red-500': errors.login }]" />
+    <input v-if="type === 'Локальная'" v-model="password" placeholder="Пароль" type="password"
+      :class="['w-full p-2 border rounded', { 'border-red-500': errors.password }]" />
+    <button class="text-red-600 hover:underline" @click="store.deleteAccount(account.id)">
       Удалить
     </button>
   </div>
