@@ -20,23 +20,26 @@ const errors = ref({
   password: false,
 })
 
-const validateAndSave = () => {
+function validate(): boolean {
   errors.value.login = !login.value || login.value.length > 100
   errors.value.password = type.value === 'Локальная' && (!password.value || password.value.length > 100)
-
-  if (!errors.value.login && !errors.value.password) {
-    const updated: Account = {
-      id: props.account.id,
-      type: type.value,
-      login: login.value,
-      password: type.value === 'LDAP' ? null : password.value,
-      labels: parseLabels(labelsInput.value),
-    }
-    store.updateAccount(updated)
-  }
+  return !errors.value.login && !errors.value.password
 }
 
-watch([labelsInput, login, password, type], validateAndSave, { deep: true })
+function save() {
+  const updated: Account = {
+    id: props.account.id,
+    login: login.value,
+    password: type.value === 'LDAP' ? null : password.value,
+    labels: parseLabels(labelsInput.value),
+    type: type.value,
+  }
+  store.updateAccount(updated)
+}
+
+watch([labelsInput, login, password, type], () => {
+  if (validate()) save()
+})
 </script>
 
 <template>
